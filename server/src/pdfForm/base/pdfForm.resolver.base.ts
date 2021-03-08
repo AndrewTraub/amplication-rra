@@ -7,63 +7,58 @@ import * as gqlACGuard from "../../auth/gqlAC.guard";
 import * as gqlUserRoles from "../../auth/gqlUserRoles.decorator";
 import * as abacUtil from "../../auth/abac.util";
 import { isRecordNotFoundError } from "../../prisma.util";
-import { CreateStateArgs } from "./CreateStateArgs";
-import { UpdateStateArgs } from "./UpdateStateArgs";
-import { DeleteStateArgs } from "./DeleteStateArgs";
-import { FindManyStateArgs } from "./FindManyStateArgs";
-import { FindOneStateArgs } from "./FindOneStateArgs";
-import { State } from "./State";
-import { FindManyAgentArgs } from "../../agent/base/FindManyAgentArgs";
-import { Agent } from "../../agent/base/Agent";
-import { FindManyPdfFormArgs } from "../../pdfForm/base/FindManyPdfFormArgs";
-import { PdfForm } from "../../pdfForm/base/PdfForm";
-import { FindManyReminderArgs } from "../../reminder/base/FindManyReminderArgs";
-import { Reminder } from "../../reminder/base/Reminder";
-import { StateService } from "../state.service";
+import { CreatePdfFormArgs } from "./CreatePdfFormArgs";
+import { UpdatePdfFormArgs } from "./UpdatePdfFormArgs";
+import { DeletePdfFormArgs } from "./DeletePdfFormArgs";
+import { FindManyPdfFormArgs } from "./FindManyPdfFormArgs";
+import { FindOnePdfFormArgs } from "./FindOnePdfFormArgs";
+import { PdfForm } from "./PdfForm";
+import { State } from "../../state/base/State";
+import { PdfFormService } from "../pdfForm.service";
 
-@graphql.Resolver(() => State)
+@graphql.Resolver(() => PdfForm)
 @common.UseGuards(gqlBasicAuthGuard.GqlBasicAuthGuard, gqlACGuard.GqlACGuard)
-export class StateResolverBase {
+export class PdfFormResolverBase {
   constructor(
-    protected readonly service: StateService,
+    protected readonly service: PdfFormService,
     protected readonly rolesBuilder: nestAccessControl.RolesBuilder
   ) {}
 
-  @graphql.Query(() => [State])
+  @graphql.Query(() => [PdfForm])
   @nestAccessControl.UseRoles({
-    resource: "State",
+    resource: "PdfForm",
     action: "read",
     possession: "any",
   })
-  async states(
-    @graphql.Args() args: FindManyStateArgs,
+  async pdfForms(
+    @graphql.Args() args: FindManyPdfFormArgs,
     @gqlUserRoles.UserRoles() userRoles: string[]
-  ): Promise<State[]> {
+  ): Promise<PdfForm[]> {
     const permission = this.rolesBuilder.permission({
       role: userRoles,
       action: "read",
       possession: "any",
-      resource: "State",
+      resource: "PdfForm",
     });
     const results = await this.service.findMany(args);
     return results.map((result) => permission.filter(result));
   }
 
-  @graphql.Query(() => State, { nullable: true })
+  @graphql.Query(() => PdfForm, { nullable: true })
   @nestAccessControl.UseRoles({
-    resource: "State",
+    resource: "PdfForm",
     action: "read",
     possession: "own",
   })
-  async state(
-    @graphql.Args() args: FindOneStateArgs,
+  async pdfForm(
+    @graphql.Args() args: FindOnePdfFormArgs,
     @gqlUserRoles.UserRoles() userRoles: string[]
-  ): Promise<State | null> {
+  ): Promise<PdfForm | null> {
     const permission = this.rolesBuilder.permission({
       role: userRoles,
       action: "read",
       possession: "own",
-      resource: "State",
+      resource: "PdfForm",
     });
     const result = await this.service.findOne(args);
     if (result === null) {
@@ -72,21 +67,21 @@ export class StateResolverBase {
     return permission.filter(result);
   }
 
-  @graphql.Mutation(() => State)
+  @graphql.Mutation(() => PdfForm)
   @nestAccessControl.UseRoles({
-    resource: "State",
+    resource: "PdfForm",
     action: "create",
     possession: "any",
   })
-  async createState(
-    @graphql.Args() args: CreateStateArgs,
+  async createPdfForm(
+    @graphql.Args() args: CreatePdfFormArgs,
     @gqlUserRoles.UserRoles() userRoles: string[]
-  ): Promise<State> {
+  ): Promise<PdfForm> {
     const permission = this.rolesBuilder.permission({
       role: userRoles,
       action: "create",
       possession: "any",
-      resource: "State",
+      resource: "PdfForm",
     });
     const invalidAttributes = abacUtil.getInvalidAttributes(
       permission,
@@ -100,31 +95,37 @@ export class StateResolverBase {
         .map((role: string) => JSON.stringify(role))
         .join(",");
       throw new apollo.ApolloError(
-        `providing the properties: ${properties} on ${"State"} creation is forbidden for roles: ${roles}`
+        `providing the properties: ${properties} on ${"PdfForm"} creation is forbidden for roles: ${roles}`
       );
     }
     // @ts-ignore
     return await this.service.create({
       ...args,
-      data: args.data,
+      data: {
+        ...args.data,
+
+        state: {
+          connect: args.data.state,
+        },
+      },
     });
   }
 
-  @graphql.Mutation(() => State)
+  @graphql.Mutation(() => PdfForm)
   @nestAccessControl.UseRoles({
-    resource: "State",
+    resource: "PdfForm",
     action: "update",
     possession: "any",
   })
-  async updateState(
-    @graphql.Args() args: UpdateStateArgs,
+  async updatePdfForm(
+    @graphql.Args() args: UpdatePdfFormArgs,
     @gqlUserRoles.UserRoles() userRoles: string[]
-  ): Promise<State | null> {
+  ): Promise<PdfForm | null> {
     const permission = this.rolesBuilder.permission({
       role: userRoles,
       action: "update",
       possession: "any",
-      resource: "State",
+      resource: "PdfForm",
     });
     const invalidAttributes = abacUtil.getInvalidAttributes(
       permission,
@@ -138,14 +139,20 @@ export class StateResolverBase {
         .map((role: string) => JSON.stringify(role))
         .join(",");
       throw new apollo.ApolloError(
-        `providing the properties: ${properties} on ${"State"} update is forbidden for roles: ${roles}`
+        `providing the properties: ${properties} on ${"PdfForm"} update is forbidden for roles: ${roles}`
       );
     }
     try {
       // @ts-ignore
       return await this.service.update({
         ...args,
-        data: args.data,
+        data: {
+          ...args.data,
+
+          state: {
+            connect: args.data.state,
+          },
+        },
       });
     } catch (error) {
       if (isRecordNotFoundError(error)) {
@@ -157,15 +164,15 @@ export class StateResolverBase {
     }
   }
 
-  @graphql.Mutation(() => State)
+  @graphql.Mutation(() => PdfForm)
   @nestAccessControl.UseRoles({
-    resource: "State",
+    resource: "PdfForm",
     action: "delete",
     possession: "any",
   })
-  async deleteState(
-    @graphql.Args() args: DeleteStateArgs
-  ): Promise<State | null> {
+  async deletePdfForm(
+    @graphql.Args() args: DeletePdfFormArgs
+  ): Promise<PdfForm | null> {
     try {
       // @ts-ignore
       return await this.service.delete(args);
@@ -179,75 +186,29 @@ export class StateResolverBase {
     }
   }
 
-  @graphql.ResolveField(() => [Agent])
+  @graphql.ResolveField(() => State, { nullable: true })
   @nestAccessControl.UseRoles({
-    resource: "State",
+    resource: "PdfForm",
     action: "read",
     possession: "any",
   })
-  async agent(
-    @graphql.Parent() parent: State,
-    @graphql.Args() args: FindManyAgentArgs,
+  async state(
+    @graphql.Parent() parent: PdfForm,
     @gqlUserRoles.UserRoles() userRoles: string[]
-  ): Promise<Agent[]> {
+  ): Promise<State | null> {
     const permission = this.rolesBuilder.permission({
       role: userRoles,
       action: "read",
       possession: "any",
-      resource: "Agent",
+      resource: "State",
     });
-    const results = await this.service
+    const result = await this.service
       .findOne({ where: { id: parent.id } })
-      // @ts-ignore
-      .agent(args);
-    return results.map((result) => permission.filter(result));
-  }
+      .state();
 
-  @graphql.ResolveField(() => [PdfForm])
-  @nestAccessControl.UseRoles({
-    resource: "State",
-    action: "read",
-    possession: "any",
-  })
-  async form(
-    @graphql.Parent() parent: State,
-    @graphql.Args() args: FindManyPdfFormArgs,
-    @gqlUserRoles.UserRoles() userRoles: string[]
-  ): Promise<PdfForm[]> {
-    const permission = this.rolesBuilder.permission({
-      role: userRoles,
-      action: "read",
-      possession: "any",
-      resource: "PdfForm",
-    });
-    const results = await this.service
-      .findOne({ where: { id: parent.id } })
-      // @ts-ignore
-      .form(args);
-    return results.map((result) => permission.filter(result));
-  }
-
-  @graphql.ResolveField(() => [Reminder])
-  @nestAccessControl.UseRoles({
-    resource: "State",
-    action: "read",
-    possession: "any",
-  })
-  async reminder(
-    @graphql.Parent() parent: State,
-    @graphql.Args() args: FindManyReminderArgs,
-    @gqlUserRoles.UserRoles() userRoles: string[]
-  ): Promise<Reminder[]> {
-    const permission = this.rolesBuilder.permission({
-      role: userRoles,
-      action: "read",
-      possession: "any",
-      resource: "Reminder",
-    });
-    const results = await this.service
-      .findOne({ where: { id: parent.id } })
-      // @ts-ignore
-      .reminder(args);
-    return results.map((result) => permission.filter(result));
+    if (!result) {
+      return null;
+    }
+    return permission.filter(result);
   }
 }

@@ -15,7 +15,7 @@ const Navigation = (): React.ReactElement => {
       <NavigationItem name="Journal Categories" to="/journal-categories" />
       <NavigationItem name="Journal Accounts" to="/journal-accounts" />
       <NavigationItem name="Journals" to="/journals" />
-      <NavigationItem name="Forms" to="/forms" />
+      <NavigationItem name="PDF Forms" to="/pdf-forms" />
       <NavigationItem name="Email Lists" to="/email-lists" />
       <NavigationItem name="Email Templates" to="/email-templates" />
       <NavigationItem name="Email Queues" to="/email-queues" />

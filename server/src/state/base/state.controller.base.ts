@@ -14,8 +14,8 @@ import { StateUpdateInput } from "./StateUpdateInput";
 import { State } from "./State";
 import { AgentWhereInput } from "../../agent/base/AgentWhereInput";
 import { Agent } from "../../agent/base/Agent";
-import { FormWhereInput } from "../../form/base/FormWhereInput";
-import { Form } from "../../form/base/Form";
+import { PdfFormWhereInput } from "../../pdfForm/base/PdfFormWhereInput";
+import { PdfForm } from "../../pdfForm/base/PdfForm";
 import { ReminderWhereInput } from "../../reminder/base/ReminderWhereInput";
 import { Reminder } from "../../reminder/base/Reminder";
 
@@ -449,14 +449,14 @@ export class StateControllerBase {
   })
   async findManyForm(
     @common.Param() params: StateWhereUniqueInput,
-    @common.Query() query: FormWhereInput,
+    @common.Query() query: PdfFormWhereInput,
     @nestAccessControl.UserRoles() userRoles: string[]
-  ): Promise<Form[]> {
+  ): Promise<PdfForm[]> {
     const permission = this.rolesBuilder.permission({
       role: userRoles,
       action: "read",
       possession: "any",
-      resource: "Form",
+      resource: "PdfForm",
     });
     const results = await this.service.findOne({ where: params }).form({
       where: query,
