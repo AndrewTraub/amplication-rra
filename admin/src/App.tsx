@@ -24,7 +24,7 @@ import { AgentIndex } from "./agent/AgentIndex";
 import { JournalCategoryIndex } from "./journalCategory/JournalCategoryIndex";
 import { JournalAccountIndex } from "./journalAccount/JournalAccountIndex";
 import { JournalIndex } from "./journal/JournalIndex";
-import { FormIndex } from "./form/FormIndex";
+import { PdfFormIndex } from "./pdfForm/PdfFormIndex";
 import { EmailListIndex } from "./emailList/EmailListIndex";
 import { EmailTemplateIndex } from "./emailTemplate/EmailTemplateIndex";
 import { EmailQueueIndex } from "./emailQueue/EmailQueueIndex";
@@ -121,7 +121,7 @@ const AppLayout = (): React.ReactElement => {
               component={JournalAccountIndex}
             />
             <PrivateRoute path="/journals" component={JournalIndex} />
-            <PrivateRoute path="/forms" component={FormIndex} />
+            <PrivateRoute path="/pdf-forms" component={PdfFormIndex} />
             <PrivateRoute path="/email-lists" component={EmailListIndex} />
             <PrivateRoute
               path="/email-templates"

@@ -96,7 +96,7 @@ model State {
   annualFee     Float
   autoFax       Boolean?
   createdAt     DateTime   @default(now())
-  form          Form[]
+  form          PdfForm[]
   id            String     @id @default(cuid())
   reminder      Reminder[]
   sosFax        String?
@@ -188,7 +188,7 @@ model Journal {
   userId          String?
 }
 
-model Form {
+model PdfForm {
   createdAt           DateTime @default(now())
   id                  String   @id @default(cuid())
   mustAcceptRisk      Boolean

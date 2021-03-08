@@ -463,37 +463,37 @@
   },
   {
     "role": "admin",
-    "resource": "Form",
+    "resource": "PdfForm",
     "action": "read:own",
     "attributes": "*"
   },
   {
     "role": "admin",
-    "resource": "Form",
+    "resource": "PdfForm",
     "action": "create:any",
     "attributes": "*"
   },
   {
     "role": "admin",
-    "resource": "Form",
+    "resource": "PdfForm",
     "action": "update:any",
     "attributes": "*"
   },
   {
     "role": "admin",
-    "resource": "Form",
+    "resource": "PdfForm",
     "action": "delete:any",
     "attributes": "*"
   },
   {
     "role": "admin",
-    "resource": "Form",
+    "resource": "PdfForm",
     "action": "read:any",
     "attributes": "*"
   },
   {
     "role": "user",
-    "resource": "Form",
+    "resource": "PdfForm",
     "action": "read:any",
     "attributes": "*"
   },

@@ -9,7 +9,7 @@ import { AgentModule } from "./agent/agent.module";
 import { JournalCategoryModule } from "./journalCategory/journalCategory.module";
 import { JournalAccountModule } from "./journalAccount/journalAccount.module";
 import { JournalModule } from "./journal/journal.module";
-import { FormModule } from "./form/form.module";
+import { PdfFormModule } from "./pdfForm/pdfForm.module";
 import { EmailListModule } from "./emailList/emailList.module";
 import { EmailTemplateModule } from "./emailTemplate/emailTemplate.module";
 import { EmailQueueModule } from "./emailQueue/emailQueue.module";
@@ -43,7 +43,7 @@ import { GraphQLModule } from "@nestjs/graphql";
     JournalCategoryModule,
     JournalAccountModule,
     JournalModule,
-    FormModule,
+    PdfFormModule,
     EmailListModule,
     EmailTemplateModule,
     EmailQueueModule,
