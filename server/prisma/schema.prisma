@@ -1,0 +1,390 @@
+datasource postgres {
+  provider = "postgresql"
+  url      = env("POSTGRESQL_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  affiliate AffiliateStat[]
+  agent     Agent[]
+  company   Company[]
+  createdAt DateTime        @default(now())
+  document  Document[]
+  emailLog  LogEmail[]
+  firstName String?
+  id        String          @id @default(cuid())
+  journal   Journal[]
+  lastIp    String?
+  lastLogin DateTime?
+  lastName  String?
+  log       Log[]
+  password  String
+  queue     EmailQueue[]
+  roles     String[]
+  smsLog    LogText[]
+  updatedAt DateTime        @updatedAt
+  username  String          @unique
+}
+
+model Company {
+  address         String
+  address2        String?
+  city            String
+  country         String
+  createdAt       DateTime       @default(now())
+  entityType      Int?
+  federalIdNumber String?
+  id              String         @id @default(cuid())
+  name            String
+  notes           String?
+  raiUuid         String?
+  registration    Registration[]
+  state           String
+  updatedAt       DateTime       @updatedAt
+  userId          User           @relation(fields: [userIdId])
+  userIdId        String
+  zip             String
+}
+
+model Registration {
+  automaticRenewal Boolean?
+  cancelledDate    DateTime?
+  companyId        Company                   @relation(fields: [companyIdId])
+  companyIdId      String
+  createdAt        DateTime                  @default(now())
+  dba              String?
+  document         Document[]
+  emailLog         LogEmail[]
+  exp              String?
+  four             String?
+  id               String                    @id @default(cuid())
+  journal          Journal[]
+  merchant         EnumRegistrationMerchant?
+  noGracePeriod    Boolean?
+  notification     Notification[]
+  period           EnumRegistrationPeriod?
+  registeredDate   DateTime?
+  renewalDate      DateTime?
+  smsLog           LogText[]
+  state            String
+  status           EnumRegistrationStatus
+  subscriptionId   String?
+  updatedAt        DateTime                  @updatedAt
+}
+
+model Notification {
+  createdAt        DateTime      @default(now())
+  disabled         Boolean?
+  email            String
+  emailLog         LogEmail[]
+  fax              String?
+  id               String        @id @default(cuid())
+  phone            String
+  registrationId   Registration? @relation(fields: [registrationIdId])
+  registrationIdId String?
+  sendFax          Boolean?
+  sendSms          Boolean?
+  smsLog           LogText[]
+  updatedAt        DateTime      @updatedAt
+}
+
+model State {
+  agent         Agent[]
+  annualFee     Float
+  autoFax       Boolean?
+  createdAt     DateTime   @default(now())
+  form          Form[]
+  id            String     @id @default(cuid())
+  reminder      Reminder[]
+  sosFax        String?
+  sosPhone      String?
+  state         String
+  updatedAt     DateTime   @updatedAt
+  withdrawalFee Float?
+}
+
+model Document {
+  createdAt        DateTime      @default(now())
+  fileType         String?
+  fileUrl          String
+  id               String        @id @default(cuid())
+  notes            String?
+  registrationId   Registration? @relation(fields: [registrationIdId])
+  registrationIdId String?
+  title            String
+  updatedAt        DateTime      @updatedAt
+  uploadedBy       Agent?        @relation(fields: [uploadedById])
+  uploadedById     String?
+  userId           User?         @relation(fields: [userIdId])
+  userIdId         String?
+}
+
+model Agent {
+  address   String
+  createdAt DateTime   @default(now())
+  document  Document[]
+  endDate   DateTime?
+  fee       Float
+  id        String     @id @default(cuid())
+  journal   Journal[]
+  name      String
+  payTo     String?
+  startDate DateTime
+  state     State      @relation(fields: [stateId])
+  stateId   String
+  taxId     String?
+  updatedAt DateTime   @updatedAt
+  user      User       @relation(fields: [userId])
+  userId    String
+}
+
+model JournalCategory {
+  createdAt       DateTime                           @default(now())
+  id              String                             @id @default(cuid())
+  incomeorexpense EnumJournalCategoryIncomeorexpense
+  journal         Journal[]
+  name            String
+  sort            Int?
+  updatedAt       DateTime                           @updatedAt
+}
+
+model JournalAccount {
+  account       Journal[]
+  accountNumber String
+  assettype     EnumJournalAccountAssettype?
+  balance       Float?
+  createdAt     DateTime                     @default(now())
+  description   String?
+  id            String                       @id @default(cuid())
+  updatedAt     DateTime                     @updatedAt
+}
+
+model Journal {
+  account         JournalAccount          @relation(fields: [accountId])
+  accountId       String
+  agent           Agent?                  @relation(fields: [agentId])
+  agentId         String?
+  amount          Float
+  category        JournalCategory?        @relation(fields: [categoryId])
+  categoryId      String?
+  comment         String?
+  createdAt       DateTime                @default(now())
+  dc              EnumJournalDc
+  description     String?
+  id              String                  @id @default(cuid())
+  journaltype     EnumJournalJournaltype?
+  postDate        DateTime?
+  posted          Boolean?
+  registration    Registration?           @relation(fields: [registrationId])
+  registrationId  String?
+  source          String
+  transactionDate DateTime
+  transactionId   String?
+  updatedAt       DateTime                @updatedAt
+  user            User?                   @relation(fields: [userId])
+  userId          String?
+}
+
+model Form {
+  createdAt           DateTime @default(now())
+  id                  String   @id @default(cuid())
+  mustAcceptRisk      Boolean
+  privateDescription  String?
+  provatefilename     String
+  public              Boolean?
+  publicDescription   String?
+  publicName          String
+  state               State    @relation(fields: [stateId])
+  stateId             String
+  updatedAt           DateTime @updatedAt
+  useRegistrationDate Boolean?
+}
+
+model EmailList {
+  active      Boolean?
+  createdAt   DateTime        @default(now())
+  description String?
+  id          String          @id @default(cuid())
+  name        String
+  stage       Int?
+  template    EmailTemplate[]
+  updatedAt   DateTime        @updatedAt
+}
+
+model EmailTemplate {
+  active         Boolean?
+  body           String
+  createdAt      DateTime  @default(now())
+  delay          Int
+  emailList      EmailList @relation(fields: [emailListId])
+  emailListId    String
+  id             String    @id @default(cuid())
+  sequenceNumber Int
+  title          String?
+  updatedAt      DateTime  @updatedAt
+}
+
+model EmailQueue {
+  createdAt  DateTime @default(now())
+  id         String   @id @default(cuid())
+  message    String?
+  sent       Boolean?
+  subject    String
+  timeToSend DateTime
+  type       Int?
+  updatedAt  DateTime @updatedAt
+  user       User?    @relation(fields: [userId])
+  userId     String?
+}
+
+model Log {
+  category  String?
+  createdAt DateTime @default(now())
+  entry     String
+  id        String   @id @default(cuid())
+  table     String
+  updatedAt DateTime @updatedAt
+  user      User?    @relation(fields: [userId])
+  userId    String?
+}
+
+model LogEmail {
+  createdAt      DateTime      @default(now())
+  emailEvent     String?
+  emailTo        String?
+  id             String        @id @default(cuid())
+  messageId      String?
+  notification   Notification? @relation(fields: [notificationId])
+  notificationId String?
+  registration   Registration? @relation(fields: [registrationId])
+  registrationId String?
+  sentOn         DateTime?
+  updatedAt      DateTime      @updatedAt
+  user           User?         @relation(fields: [userId])
+  userId         String?
+}
+
+model LogText {
+  createdAt        DateTime      @default(now())
+  id               String        @id @default(cuid())
+  message          String
+  notification     Notification? @relation(fields: [notificationId])
+  notificationId   String?
+  registration     Registration? @relation(fields: [registrationId])
+  registrationId   String?
+  response         String?
+  sent             DateTime
+  sentBy           String
+  sentToNumber     String
+  smsTriggerReason String?
+  updatedAt        DateTime      @updatedAt
+  user             User?         @relation(fields: [userId])
+  userId           String?
+}
+
+model Reminder {
+  active    Boolean?
+  body      String?
+  createdAt DateTime @default(now())
+  day       Int?
+  id        String   @id @default(cuid())
+  month     Int?
+  state     State    @relation(fields: [stateId])
+  stateId   String
+  title     String
+  updatedAt DateTime @updatedAt
+}
+
+model AffiliateStat {
+  createdAt  DateTime @default(now())
+  id         String   @id @default(cuid())
+  ip         String
+  status     Int
+  statusDate DateTime
+  type       Int
+  updatedAt  DateTime @updatedAt
+  user       User     @relation(fields: [userId])
+  userId     String
+}
+
+model GeoCountry {
+  city      GeoCity[]
+  id        String     @id @default(cuid())
+  latitude  Float
+  longitude String
+  name      String
+  state     GeoState[]
+}
+
+model GeoState {
+  city      GeoCity[]
+  country   GeoCountry @relation(fields: [countryId])
+  countryId String
+  id        String     @id @default(cuid())
+  name      String
+}
+
+model GeoCity {
+  country   GeoCountry @relation(fields: [countryId])
+  countryId String
+  id        String     @id @default(cuid())
+  latitude  Float
+  longitude Float
+  name      String
+  state     GeoState   @relation(fields: [stateId])
+  stateId   String
+}
+
+model Coupon {
+  amount    Float?
+  coupon    String
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  updatedAt DateTime @updatedAt
+  validFrom DateTime
+  validTo   DateTime
+}
+
+enum EnumRegistrationMerchant {
+  AuthorizeNet
+  Paypal
+  Stripe
+}
+
+enum EnumRegistrationPeriod {
+  Month
+  Year
+}
+
+enum EnumRegistrationStatus {
+  Unregistered
+  Registered
+  Overdue
+  Cancelled
+}
+
+enum EnumJournalCategoryIncomeorexpense {
+  Income
+  Expense
+}
+
+enum EnumJournalAccountAssettype {
+  Asset
+  Liability
+  Equity
+  Receivable
+  Expense
+}
+
+enum EnumJournalDc {
+  D
+  C
+}
+
+enum EnumJournalJournaltype {
+  Sj
+  Ap
+}
