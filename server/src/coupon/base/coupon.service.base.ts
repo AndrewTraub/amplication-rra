@@ -1,4 +1,5 @@
 import { PrismaService } from "nestjs-prisma";
+
 import {
   FindOneCouponArgs,
   FindManyCouponArgs,
@@ -6,23 +7,35 @@ import {
   CouponUpdateArgs,
   CouponDeleteArgs,
   Subset,
+  Coupon,
 } from "@prisma/client";
 
 export class CouponServiceBase {
   constructor(protected readonly prisma: PrismaService) {}
-  findMany<T extends FindManyCouponArgs>(args: Subset<T, FindManyCouponArgs>) {
+
+  async findMany<T extends FindManyCouponArgs>(
+    args: Subset<T, FindManyCouponArgs>
+  ): Promise<Coupon[]> {
     return this.prisma.coupon.findMany(args);
   }
-  findOne<T extends FindOneCouponArgs>(args: Subset<T, FindOneCouponArgs>) {
+  async findOne<T extends FindOneCouponArgs>(
+    args: Subset<T, FindOneCouponArgs>
+  ): Promise<Coupon | null> {
     return this.prisma.coupon.findOne(args);
   }
-  create<T extends CouponCreateArgs>(args: Subset<T, CouponCreateArgs>) {
+  async create<T extends CouponCreateArgs>(
+    args: Subset<T, CouponCreateArgs>
+  ): Promise<Coupon> {
     return this.prisma.coupon.create<T>(args);
   }
-  update<T extends CouponUpdateArgs>(args: Subset<T, CouponUpdateArgs>) {
+  async update<T extends CouponUpdateArgs>(
+    args: Subset<T, CouponUpdateArgs>
+  ): Promise<Coupon> {
     return this.prisma.coupon.update<T>(args);
   }
-  delete<T extends CouponDeleteArgs>(args: Subset<T, CouponDeleteArgs>) {
+  async delete<T extends CouponDeleteArgs>(
+    args: Subset<T, CouponDeleteArgs>
+  ): Promise<Coupon> {
     return this.prisma.coupon.delete(args);
   }
 }

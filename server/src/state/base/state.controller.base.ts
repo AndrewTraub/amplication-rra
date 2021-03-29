@@ -282,7 +282,7 @@ export class StateControllerBase {
       possession: "any",
       resource: "Agent",
     });
-    const results = await this.service.findOne({ where: params }).agent({
+    const results = await this.service.findAgent(params.id, {
       where: query,
       select: {
         address: true,
@@ -458,7 +458,7 @@ export class StateControllerBase {
       possession: "any",
       resource: "PdfForm",
     });
-    const results = await this.service.findOne({ where: params }).form({
+    const results = await this.service.findForm(params.id, {
       where: query,
       select: {
         createdAt: true,
@@ -628,7 +628,7 @@ export class StateControllerBase {
       possession: "any",
       resource: "Reminder",
     });
-    const results = await this.service.findOne({ where: params }).reminder({
+    const results = await this.service.findReminder(params.id, {
       where: query,
       select: {
         active: true,

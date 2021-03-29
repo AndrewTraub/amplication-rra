@@ -202,9 +202,7 @@ export class EmailTemplateResolverBase {
       possession: "any",
       resource: "EmailList",
     });
-    const result = await this.service
-      .findOne({ where: { id: parent.id } })
-      .emailList();
+    const result = await this.service.getEmailList(parent.id);
 
     if (!result) {
       return null;

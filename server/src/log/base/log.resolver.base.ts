@@ -204,9 +204,7 @@ export class LogResolverBase {
       possession: "any",
       resource: "User",
     });
-    const result = await this.service
-      .findOne({ where: { id: parent.id } })
-      .user();
+    const result = await this.service.getUser(parent.id);
 
     if (!result) {
       return null;

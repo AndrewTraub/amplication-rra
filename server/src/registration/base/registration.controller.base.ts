@@ -368,7 +368,7 @@ export class RegistrationControllerBase {
       possession: "any",
       resource: "Document",
     });
-    const results = await this.service.findOne({ where: params }).document({
+    const results = await this.service.findDocument(params.id, {
       where: query,
       select: {
         createdAt: true,
@@ -547,7 +547,7 @@ export class RegistrationControllerBase {
       possession: "any",
       resource: "LogEmail",
     });
-    const results = await this.service.findOne({ where: params }).emailLog({
+    const results = await this.service.findEmailLog(params.id, {
       where: query,
       select: {
         createdAt: true,
@@ -726,7 +726,7 @@ export class RegistrationControllerBase {
       possession: "any",
       resource: "Journal",
     });
-    const results = await this.service.findOne({ where: params }).journal({
+    const results = await this.service.findJournal(params.id, {
       where: query,
       select: {
         account: {
@@ -924,7 +924,7 @@ export class RegistrationControllerBase {
       possession: "any",
       resource: "Notification",
     });
-    const results = await this.service.findOne({ where: params }).notification({
+    const results = await this.service.findNotification(params.id, {
       where: query,
       select: {
         createdAt: true,
@@ -1093,7 +1093,7 @@ export class RegistrationControllerBase {
       possession: "any",
       resource: "LogText",
     });
-    const results = await this.service.findOne({ where: params }).smsLog({
+    const results = await this.service.findSmsLog(params.id, {
       where: query,
       select: {
         createdAt: true,

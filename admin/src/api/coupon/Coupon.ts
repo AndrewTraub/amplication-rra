@@ -3,6 +3,7 @@ export type Coupon = {
   coupon: string;
   createdAt: Date;
   id: string;
+  minTerm?: "Month" | "Year";
   updatedAt: Date;
   validFrom: Date;
   validTo: Date;

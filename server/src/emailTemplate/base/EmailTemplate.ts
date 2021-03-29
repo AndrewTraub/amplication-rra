@@ -49,7 +49,7 @@ class EmailTemplate {
   })
   @ValidateNested()
   @Type(() => EmailListWhereUniqueInput)
-  emailList!: EmailListWhereUniqueInput;
+  emailList?: EmailListWhereUniqueInput;
   @ApiProperty({
     required: true,
     type: String,

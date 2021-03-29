@@ -1,4 +1,5 @@
 import { PrismaService } from "nestjs-prisma";
+
 import {
   FindOneAffiliateStatArgs,
   FindManyAffiliateStatArgs,
@@ -6,33 +7,44 @@ import {
   AffiliateStatUpdateArgs,
   AffiliateStatDeleteArgs,
   Subset,
+  AffiliateStat,
+  User,
 } from "@prisma/client";
 
 export class AffiliateStatServiceBase {
   constructor(protected readonly prisma: PrismaService) {}
-  findMany<T extends FindManyAffiliateStatArgs>(
+
+  async findMany<T extends FindManyAffiliateStatArgs>(
     args: Subset<T, FindManyAffiliateStatArgs>
-  ) {
+  ): Promise<AffiliateStat[]> {
     return this.prisma.affiliateStat.findMany(args);
   }
-  findOne<T extends FindOneAffiliateStatArgs>(
+  async findOne<T extends FindOneAffiliateStatArgs>(
     args: Subset<T, FindOneAffiliateStatArgs>
-  ) {
+  ): Promise<AffiliateStat | null> {
     return this.prisma.affiliateStat.findOne(args);
   }
-  create<T extends AffiliateStatCreateArgs>(
+  async create<T extends AffiliateStatCreateArgs>(
     args: Subset<T, AffiliateStatCreateArgs>
-  ) {
+  ): Promise<AffiliateStat> {
     return this.prisma.affiliateStat.create<T>(args);
   }
-  update<T extends AffiliateStatUpdateArgs>(
+  async update<T extends AffiliateStatUpdateArgs>(
     args: Subset<T, AffiliateStatUpdateArgs>
-  ) {
+  ): Promise<AffiliateStat> {
     return this.prisma.affiliateStat.update<T>(args);
   }
-  delete<T extends AffiliateStatDeleteArgs>(
+  async delete<T extends AffiliateStatDeleteArgs>(
     args: Subset<T, AffiliateStatDeleteArgs>
-  ) {
+  ): Promise<AffiliateStat> {
     return this.prisma.affiliateStat.delete(args);
+  }
+
+  async getUser(parentId: string): Promise<User | null> {
+    return this.prisma.affiliateStat
+      .findOne({
+        where: { id: parentId },
+      })
+      .user();
   }
 }

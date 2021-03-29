@@ -268,7 +268,7 @@ export class EmailListControllerBase {
       possession: "any",
       resource: "EmailTemplate",
     });
-    const results = await this.service.findOne({ where: params }).template({
+    const results = await this.service.findTemplate(params.id, {
       where: query,
       select: {
         active: true,

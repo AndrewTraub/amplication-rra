@@ -10,8 +10,8 @@ export type Agent = {
   name: string;
   payTo: string | null;
   startDate: Date;
-  state: StateWhereUniqueInput;
+  state?: StateWhereUniqueInput;
   taxId: string | null;
   updatedAt: Date;
-  user: UserWhereUniqueInput;
+  user?: UserWhereUniqueInput;
 };

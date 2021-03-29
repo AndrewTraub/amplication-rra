@@ -3,7 +3,7 @@ import { CompanyWhereUniqueInput } from "../company/CompanyWhereUniqueInput";
 export type Registration = {
   automaticRenewal: boolean | null;
   cancelledDate: Date | null;
-  companyId: CompanyWhereUniqueInput;
+  companyId?: CompanyWhereUniqueInput;
   createdAt: Date;
   dba: string | null;
   exp: string | null;
@@ -15,7 +15,7 @@ export type Registration = {
   registeredDate: Date | null;
   renewalDate: Date | null;
   state: string;
-  status: "Unregistered" | "Registered" | "Overdue" | "Cancelled";
+  status?: "Unregistered" | "Registered" | "Overdue" | "Cancelled";
   subscriptionId: string | null;
   updatedAt: Date;
 };

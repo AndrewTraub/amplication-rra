@@ -25,7 +25,7 @@ class Journal {
   })
   @ValidateNested()
   @Type(() => JournalAccountWhereUniqueInput)
-  account!: JournalAccountWhereUniqueInput;
+  account?: JournalAccountWhereUniqueInput;
   @ApiProperty({
     required: false,
     type: AgentWhereUniqueInput,
@@ -72,7 +72,7 @@ class Journal {
   })
   @IsEnum(EnumJournalDc)
   @Field(() => EnumJournalDc)
-  dc!: "D" | "C";
+  dc?: "D" | "C";
   @ApiProperty({
     required: false,
     type: String,

@@ -254,9 +254,7 @@ export class JournalResolverBase {
       possession: "any",
       resource: "JournalAccount",
     });
-    const result = await this.service
-      .findOne({ where: { id: parent.id } })
-      .account();
+    const result = await this.service.getAccount(parent.id);
 
     if (!result) {
       return null;
@@ -280,9 +278,7 @@ export class JournalResolverBase {
       possession: "any",
       resource: "Agent",
     });
-    const result = await this.service
-      .findOne({ where: { id: parent.id } })
-      .agent();
+    const result = await this.service.getAgent(parent.id);
 
     if (!result) {
       return null;
@@ -306,9 +302,7 @@ export class JournalResolverBase {
       possession: "any",
       resource: "JournalCategory",
     });
-    const result = await this.service
-      .findOne({ where: { id: parent.id } })
-      .category();
+    const result = await this.service.getCategory(parent.id);
 
     if (!result) {
       return null;
@@ -332,9 +326,7 @@ export class JournalResolverBase {
       possession: "any",
       resource: "Registration",
     });
-    const result = await this.service
-      .findOne({ where: { id: parent.id } })
-      .registration();
+    const result = await this.service.getRegistration(parent.id);
 
     if (!result) {
       return null;
@@ -358,9 +350,7 @@ export class JournalResolverBase {
       possession: "any",
       resource: "User",
     });
-    const result = await this.service
-      .findOne({ where: { id: parent.id } })
-      .user();
+    const result = await this.service.getUser(parent.id);
 
     if (!result) {
       return null;

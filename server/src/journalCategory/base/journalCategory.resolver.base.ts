@@ -192,10 +192,7 @@ export class JournalCategoryResolverBase {
       possession: "any",
       resource: "Journal",
     });
-    const results = await this.service
-      .findOne({ where: { id: parent.id } })
-      // @ts-ignore
-      .journal(args);
+    const results = await this.service.findJournal(parent.id, args);
     return results.map((result) => permission.filter(result));
   }
 }

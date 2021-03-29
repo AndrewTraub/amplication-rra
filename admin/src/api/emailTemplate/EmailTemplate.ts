@@ -5,7 +5,7 @@ export type EmailTemplate = {
   body: string;
   createdAt: Date;
   delay: number;
-  emailList: EmailListWhereUniqueInput;
+  emailList?: EmailListWhereUniqueInput;
   id: string;
   sequenceNumber: number;
   title: string | null;

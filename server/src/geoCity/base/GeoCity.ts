@@ -12,7 +12,7 @@ class GeoCity {
   })
   @ValidateNested()
   @Type(() => GeoCountryWhereUniqueInput)
-  country!: GeoCountryWhereUniqueInput;
+  country?: GeoCountryWhereUniqueInput;
   @ApiProperty({
     required: true,
     type: String,
@@ -47,6 +47,6 @@ class GeoCity {
   })
   @ValidateNested()
   @Type(() => GeoStateWhereUniqueInput)
-  state!: GeoStateWhereUniqueInput;
+  state?: GeoStateWhereUniqueInput;
 }
 export { GeoCity };

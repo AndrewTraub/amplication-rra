@@ -268,7 +268,7 @@ export class JournalAccountControllerBase {
       possession: "any",
       resource: "Journal",
     });
-    const results = await this.service.findOne({ where: params }).account({
+    const results = await this.service.findAccount(params.id, {
       where: query,
       select: {
         account: {

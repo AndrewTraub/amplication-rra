@@ -255,7 +255,7 @@ export class GeoCountryControllerBase {
       possession: "any",
       resource: "GeoCity",
     });
-    const results = await this.service.findOne({ where: params }).city({
+    const results = await this.service.findCity(params.id, {
       where: query,
       select: {
         country: {
@@ -424,7 +424,7 @@ export class GeoCountryControllerBase {
       possession: "any",
       resource: "GeoState",
     });
-    const results = await this.service.findOne({ where: params }).state({
+    const results = await this.service.findState(params.id, {
       where: query,
       select: {
         country: {

@@ -232,9 +232,7 @@ export class DocumentResolverBase {
       possession: "any",
       resource: "Registration",
     });
-    const result = await this.service
-      .findOne({ where: { id: parent.id } })
-      .registrationId();
+    const result = await this.service.getRegistrationId(parent.id);
 
     if (!result) {
       return null;
@@ -258,9 +256,7 @@ export class DocumentResolverBase {
       possession: "any",
       resource: "Agent",
     });
-    const result = await this.service
-      .findOne({ where: { id: parent.id } })
-      .uploadedBy();
+    const result = await this.service.getUploadedBy(parent.id);
 
     if (!result) {
       return null;
@@ -284,9 +280,7 @@ export class DocumentResolverBase {
       possession: "any",
       resource: "User",
     });
-    const result = await this.service
-      .findOne({ where: { id: parent.id } })
-      .userId();
+    const result = await this.service.getUserId(parent.id);
 
     if (!result) {
       return null;

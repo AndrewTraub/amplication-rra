@@ -72,7 +72,7 @@ class Reminder {
   })
   @ValidateNested()
   @Type(() => StateWhereUniqueInput)
-  state!: StateWhereUniqueInput;
+  state?: StateWhereUniqueInput;
   @ApiProperty({
     required: true,
     type: String,

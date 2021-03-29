@@ -10,6 +10,7 @@ import {
   FormHeader,
   Snackbar,
   TextField,
+  SelectField,
 } from "@amplication/design-system";
 import { api } from "../api";
 import useBreadcrumbs from "../components/breadcrumbs/use-breadcrumbs";
@@ -61,6 +62,16 @@ export const CreateCoupon = (): React.ReactElement => {
           </div>
           <div>
             <TextField label="Coupon" name="coupon" />
+          </div>
+          <div>
+            <SelectField
+              label="MinTerm"
+              name="minTerm"
+              options={[
+                { label: "Month", value: "Month" },
+                { label: "Year", value: "Year" },
+              ]}
+            />
           </div>
           <div>
             <TextField type="date" label="Valid From" name="validFrom" />

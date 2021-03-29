@@ -1,7 +1,14 @@
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNumber, IsOptional, IsString, IsDate } from "class-validator";
+import {
+  IsNumber,
+  IsOptional,
+  IsString,
+  IsDate,
+  IsEnum,
+} from "class-validator";
 import { Type } from "class-transformer";
+import { EnumCouponMinTerm } from "./EnumCouponMinTerm";
 @InputType()
 class CouponWhereInput {
   @ApiProperty({
@@ -44,6 +51,16 @@ class CouponWhereInput {
     nullable: true,
   })
   id?: string;
+  @ApiProperty({
+    required: false,
+    enum: EnumCouponMinTerm,
+  })
+  @IsEnum(EnumCouponMinTerm)
+  @IsOptional()
+  @Field(() => EnumCouponMinTerm, {
+    nullable: true,
+  })
+  minTerm?: "Month" | "Year";
   @ApiProperty({
     required: false,
   })

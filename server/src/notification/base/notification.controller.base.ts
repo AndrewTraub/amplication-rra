@@ -331,7 +331,7 @@ export class NotificationControllerBase {
       possession: "any",
       resource: "LogEmail",
     });
-    const results = await this.service.findOne({ where: params }).emailLog({
+    const results = await this.service.findEmailLog(params.id, {
       where: query,
       select: {
         createdAt: true,
@@ -510,7 +510,7 @@ export class NotificationControllerBase {
       possession: "any",
       resource: "LogText",
     });
-    const results = await this.service.findOne({ where: params }).smsLog({
+    const results = await this.service.findSmsLog(params.id, {
       where: query,
       select: {
         createdAt: true,

@@ -11,7 +11,7 @@ class GeoState {
   })
   @ValidateNested()
   @Type(() => GeoCountryWhereUniqueInput)
-  country!: GeoCountryWhereUniqueInput;
+  country?: GeoCountryWhereUniqueInput;
   @ApiProperty({
     required: true,
     type: String,

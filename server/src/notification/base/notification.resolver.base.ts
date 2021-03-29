@@ -211,10 +211,7 @@ export class NotificationResolverBase {
       possession: "any",
       resource: "LogEmail",
     });
-    const results = await this.service
-      .findOne({ where: { id: parent.id } })
-      // @ts-ignore
-      .emailLog(args);
+    const results = await this.service.findEmailLog(parent.id, args);
     return results.map((result) => permission.filter(result));
   }
 
@@ -235,10 +232,7 @@ export class NotificationResolverBase {
       possession: "any",
       resource: "LogText",
     });
-    const results = await this.service
-      .findOne({ where: { id: parent.id } })
-      // @ts-ignore
-      .smsLog(args);
+    const results = await this.service.findSmsLog(parent.id, args);
     return results.map((result) => permission.filter(result));
   }
 
@@ -258,9 +252,7 @@ export class NotificationResolverBase {
       possession: "any",
       resource: "Registration",
     });
-    const result = await this.service
-      .findOne({ where: { id: parent.id } })
-      .registrationId();
+    const result = await this.service.getRegistrationId(parent.id);
 
     if (!result) {
       return null;

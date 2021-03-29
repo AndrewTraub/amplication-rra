@@ -206,10 +206,7 @@ export class UserResolverBase {
       possession: "any",
       resource: "AffiliateStat",
     });
-    const results = await this.service
-      .findOne({ where: { id: parent.id } })
-      // @ts-ignore
-      .affiliate(args);
+    const results = await this.service.findAffiliate(parent.id, args);
     return results.map((result) => permission.filter(result));
   }
 
@@ -230,10 +227,7 @@ export class UserResolverBase {
       possession: "any",
       resource: "Agent",
     });
-    const results = await this.service
-      .findOne({ where: { id: parent.id } })
-      // @ts-ignore
-      .agent(args);
+    const results = await this.service.findAgent(parent.id, args);
     return results.map((result) => permission.filter(result));
   }
 
@@ -254,10 +248,7 @@ export class UserResolverBase {
       possession: "any",
       resource: "Company",
     });
-    const results = await this.service
-      .findOne({ where: { id: parent.id } })
-      // @ts-ignore
-      .company(args);
+    const results = await this.service.findCompany(parent.id, args);
     return results.map((result) => permission.filter(result));
   }
 
@@ -278,10 +269,7 @@ export class UserResolverBase {
       possession: "any",
       resource: "Document",
     });
-    const results = await this.service
-      .findOne({ where: { id: parent.id } })
-      // @ts-ignore
-      .document(args);
+    const results = await this.service.findDocument(parent.id, args);
     return results.map((result) => permission.filter(result));
   }
 
@@ -302,10 +290,7 @@ export class UserResolverBase {
       possession: "any",
       resource: "LogEmail",
     });
-    const results = await this.service
-      .findOne({ where: { id: parent.id } })
-      // @ts-ignore
-      .emailLog(args);
+    const results = await this.service.findEmailLog(parent.id, args);
     return results.map((result) => permission.filter(result));
   }
 
@@ -326,10 +311,7 @@ export class UserResolverBase {
       possession: "any",
       resource: "Journal",
     });
-    const results = await this.service
-      .findOne({ where: { id: parent.id } })
-      // @ts-ignore
-      .journal(args);
+    const results = await this.service.findJournal(parent.id, args);
     return results.map((result) => permission.filter(result));
   }
 
@@ -350,10 +332,7 @@ export class UserResolverBase {
       possession: "any",
       resource: "Log",
     });
-    const results = await this.service
-      .findOne({ where: { id: parent.id } })
-      // @ts-ignore
-      .log(args);
+    const results = await this.service.findLog(parent.id, args);
     return results.map((result) => permission.filter(result));
   }
 
@@ -374,10 +353,7 @@ export class UserResolverBase {
       possession: "any",
       resource: "EmailQueue",
     });
-    const results = await this.service
-      .findOne({ where: { id: parent.id } })
-      // @ts-ignore
-      .queue(args);
+    const results = await this.service.findQueue(parent.id, args);
     return results.map((result) => permission.filter(result));
   }
 
@@ -398,10 +374,7 @@ export class UserResolverBase {
       possession: "any",
       resource: "LogText",
     });
-    const results = await this.service
-      .findOne({ where: { id: parent.id } })
-      // @ts-ignore
-      .smsLog(args);
+    const results = await this.service.findSmsLog(parent.id, args);
     return results.map((result) => permission.filter(result));
   }
 }

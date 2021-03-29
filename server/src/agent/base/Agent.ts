@@ -80,7 +80,7 @@ class Agent {
   })
   @ValidateNested()
   @Type(() => StateWhereUniqueInput)
-  state!: StateWhereUniqueInput;
+  state?: StateWhereUniqueInput;
   @ApiProperty({
     required: false,
     type: String,
@@ -104,6 +104,6 @@ class Agent {
   })
   @ValidateNested()
   @Type(() => UserWhereUniqueInput)
-  user!: UserWhereUniqueInput;
+  user?: UserWhereUniqueInput;
 }
 export { Agent };

@@ -7,6 +7,25 @@ import {
   UserUpdateArgs,
   UserDeleteArgs,
   Subset,
+  User,
+  FindManyAffiliateStatArgs,
+  AffiliateStat,
+  FindManyAgentArgs,
+  Agent,
+  FindManyCompanyArgs,
+  Company,
+  FindManyDocumentArgs,
+  Document,
+  FindManyLogEmailArgs,
+  LogEmail,
+  FindManyJournalArgs,
+  Journal,
+  FindManyLogArgs,
+  Log,
+  FindManyEmailQueueArgs,
+  EmailQueue,
+  FindManyLogTextArgs,
+  LogText,
 } from "@prisma/client";
 
 import { PasswordService } from "../../auth/password.service";
@@ -17,13 +36,20 @@ export class UserServiceBase {
     protected readonly prisma: PrismaService,
     protected readonly passwordService: PasswordService
   ) {}
-  findMany<T extends FindManyUserArgs>(args: Subset<T, FindManyUserArgs>) {
+
+  async findMany<T extends FindManyUserArgs>(
+    args: Subset<T, FindManyUserArgs>
+  ): Promise<User[]> {
     return this.prisma.user.findMany(args);
   }
-  findOne<T extends FindOneUserArgs>(args: Subset<T, FindOneUserArgs>) {
+  async findOne<T extends FindOneUserArgs>(
+    args: Subset<T, FindOneUserArgs>
+  ): Promise<User | null> {
     return this.prisma.user.findOne(args);
   }
-  async create<T extends UserCreateArgs>(args: Subset<T, UserCreateArgs>) {
+  async create<T extends UserCreateArgs>(
+    args: Subset<T, UserCreateArgs>
+  ): Promise<User> {
     return this.prisma.user.create<T>({
       ...args,
 
@@ -33,7 +59,9 @@ export class UserServiceBase {
       },
     });
   }
-  async update<T extends UserUpdateArgs>(args: Subset<T, UserUpdateArgs>) {
+  async update<T extends UserUpdateArgs>(
+    args: Subset<T, UserUpdateArgs>
+  ): Promise<User> {
     return this.prisma.user.update<T>({
       ...args,
 
@@ -49,7 +77,102 @@ export class UserServiceBase {
       },
     });
   }
-  delete<T extends UserDeleteArgs>(args: Subset<T, UserDeleteArgs>) {
+  async delete<T extends UserDeleteArgs>(
+    args: Subset<T, UserDeleteArgs>
+  ): Promise<User> {
     return this.prisma.user.delete(args);
+  }
+
+  async findAffiliate(
+    parentId: string,
+    args: FindManyAffiliateStatArgs
+  ): Promise<AffiliateStat[]> {
+    return this.prisma.user
+      .findOne({
+        where: { id: parentId },
+      })
+      .affiliate(args);
+  }
+
+  async findAgent(parentId: string, args: FindManyAgentArgs): Promise<Agent[]> {
+    return this.prisma.user
+      .findOne({
+        where: { id: parentId },
+      })
+      .agent(args);
+  }
+
+  async findCompany(
+    parentId: string,
+    args: FindManyCompanyArgs
+  ): Promise<Company[]> {
+    return this.prisma.user
+      .findOne({
+        where: { id: parentId },
+      })
+      .company(args);
+  }
+
+  async findDocument(
+    parentId: string,
+    args: FindManyDocumentArgs
+  ): Promise<Document[]> {
+    return this.prisma.user
+      .findOne({
+        where: { id: parentId },
+      })
+      .document(args);
+  }
+
+  async findEmailLog(
+    parentId: string,
+    args: FindManyLogEmailArgs
+  ): Promise<LogEmail[]> {
+    return this.prisma.user
+      .findOne({
+        where: { id: parentId },
+      })
+      .emailLog(args);
+  }
+
+  async findJournal(
+    parentId: string,
+    args: FindManyJournalArgs
+  ): Promise<Journal[]> {
+    return this.prisma.user
+      .findOne({
+        where: { id: parentId },
+      })
+      .journal(args);
+  }
+
+  async findLog(parentId: string, args: FindManyLogArgs): Promise<Log[]> {
+    return this.prisma.user
+      .findOne({
+        where: { id: parentId },
+      })
+      .log(args);
+  }
+
+  async findQueue(
+    parentId: string,
+    args: FindManyEmailQueueArgs
+  ): Promise<EmailQueue[]> {
+    return this.prisma.user
+      .findOne({
+        where: { id: parentId },
+      })
+      .queue(args);
+  }
+
+  async findSmsLog(
+    parentId: string,
+    args: FindManyLogTextArgs
+  ): Promise<LogText[]> {
+    return this.prisma.user
+      .findOne({
+        where: { id: parentId },
+      })
+      .smsLog(args);
   }
 }

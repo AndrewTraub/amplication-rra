@@ -350,7 +350,7 @@ export class CompanyControllerBase {
       possession: "any",
       resource: "Registration",
     });
-    const results = await this.service.findOne({ where: params }).registration({
+    const results = await this.service.findRegistration(params.id, {
       where: query,
       select: {
         automaticRenewal: true,
