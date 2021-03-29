@@ -9,7 +9,7 @@ export type PdfForm = {
   public: boolean | null;
   publicDescription: string | null;
   publicName: string;
-  state: StateWhereUniqueInput;
+  state?: StateWhereUniqueInput;
   updatedAt: Date;
   useRegistrationDate: boolean | null;
 };

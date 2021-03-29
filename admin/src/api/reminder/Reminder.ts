@@ -7,7 +7,7 @@ export type Reminder = {
   day: number | null;
   id: string;
   month: number | null;
-  state: StateWhereUniqueInput;
+  state?: StateWhereUniqueInput;
   title: string;
   updatedAt: Date;
 };

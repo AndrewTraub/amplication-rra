@@ -192,10 +192,7 @@ export class EmailListResolverBase {
       possession: "any",
       resource: "EmailTemplate",
     });
-    const results = await this.service
-      .findOne({ where: { id: parent.id } })
-      // @ts-ignore
-      .template(args);
+    const results = await this.service.findTemplate(parent.id, args);
     return results.map((result) => permission.filter(result));
   }
 }

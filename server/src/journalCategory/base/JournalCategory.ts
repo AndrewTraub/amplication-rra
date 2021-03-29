@@ -25,7 +25,7 @@ class JournalCategory {
   })
   @IsEnum(EnumJournalCategoryIncomeorexpense)
   @Field(() => EnumJournalCategoryIncomeorexpense)
-  incomeorexpense!: "Income" | "Expense";
+  incomeorexpense?: "Income" | "Expense";
   @ApiProperty({
     required: true,
     type: String,

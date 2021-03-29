@@ -1,7 +1,7 @@
 import { GeoCountryWhereUniqueInput } from "../geoCountry/GeoCountryWhereUniqueInput";
 
 export type GeoState = {
-  country: GeoCountryWhereUniqueInput;
+  country?: GeoCountryWhereUniqueInput;
   id: string;
   name: string;
 };

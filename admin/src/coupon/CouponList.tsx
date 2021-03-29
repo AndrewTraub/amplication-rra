@@ -47,6 +47,11 @@ const FIELDS: DataField[] = [
     sortable: false,
   },
   {
+    name: "minTerm",
+    title: "MinTerm",
+    sortable: false,
+  },
+  {
     name: "updatedAt",
     title: "Updated At",
     sortable: false,
@@ -103,6 +108,9 @@ export const CouponList = (): React.ReactElement => {
                 </DataGridCell>
                 <DataGridCell>
                   <TimeSince time={item.createdAt} />
+                </DataGridCell>
+                <DataGridCell>
+                  <>{item.minTerm}</>
                 </DataGridCell>
                 <DataGridCell>
                   <TimeSince time={item.updatedAt} />

@@ -1,4 +1,5 @@
 import { PrismaService } from "nestjs-prisma";
+
 import {
   FindOneJournalArgs,
   FindManyJournalArgs,
@@ -6,25 +7,80 @@ import {
   JournalUpdateArgs,
   JournalDeleteArgs,
   Subset,
+  Journal,
+  JournalAccount,
+  Agent,
+  JournalCategory,
+  Registration,
+  User,
 } from "@prisma/client";
 
 export class JournalServiceBase {
   constructor(protected readonly prisma: PrismaService) {}
-  findMany<T extends FindManyJournalArgs>(
+
+  async findMany<T extends FindManyJournalArgs>(
     args: Subset<T, FindManyJournalArgs>
-  ) {
+  ): Promise<Journal[]> {
     return this.prisma.journal.findMany(args);
   }
-  findOne<T extends FindOneJournalArgs>(args: Subset<T, FindOneJournalArgs>) {
+  async findOne<T extends FindOneJournalArgs>(
+    args: Subset<T, FindOneJournalArgs>
+  ): Promise<Journal | null> {
     return this.prisma.journal.findOne(args);
   }
-  create<T extends JournalCreateArgs>(args: Subset<T, JournalCreateArgs>) {
+  async create<T extends JournalCreateArgs>(
+    args: Subset<T, JournalCreateArgs>
+  ): Promise<Journal> {
     return this.prisma.journal.create<T>(args);
   }
-  update<T extends JournalUpdateArgs>(args: Subset<T, JournalUpdateArgs>) {
+  async update<T extends JournalUpdateArgs>(
+    args: Subset<T, JournalUpdateArgs>
+  ): Promise<Journal> {
     return this.prisma.journal.update<T>(args);
   }
-  delete<T extends JournalDeleteArgs>(args: Subset<T, JournalDeleteArgs>) {
+  async delete<T extends JournalDeleteArgs>(
+    args: Subset<T, JournalDeleteArgs>
+  ): Promise<Journal> {
     return this.prisma.journal.delete(args);
+  }
+
+  async getAccount(parentId: string): Promise<JournalAccount | null> {
+    return this.prisma.journal
+      .findOne({
+        where: { id: parentId },
+      })
+      .account();
+  }
+
+  async getAgent(parentId: string): Promise<Agent | null> {
+    return this.prisma.journal
+      .findOne({
+        where: { id: parentId },
+      })
+      .agent();
+  }
+
+  async getCategory(parentId: string): Promise<JournalCategory | null> {
+    return this.prisma.journal
+      .findOne({
+        where: { id: parentId },
+      })
+      .category();
+  }
+
+  async getRegistration(parentId: string): Promise<Registration | null> {
+    return this.prisma.journal
+      .findOne({
+        where: { id: parentId },
+      })
+      .registration();
+  }
+
+  async getUser(parentId: string): Promise<User | null> {
+    return this.prisma.journal
+      .findOne({
+        where: { id: parentId },
+      })
+      .user();
   }
 }

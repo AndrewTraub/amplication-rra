@@ -8,5 +8,5 @@ export type AffiliateStat = {
   statusDate: Date;
   type: number;
   updatedAt: Date;
-  user: UserWhereUniqueInput;
+  user?: UserWhereUniqueInput;
 };

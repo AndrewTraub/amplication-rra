@@ -82,7 +82,7 @@ class PdfForm {
   })
   @ValidateNested()
   @Type(() => StateWhereUniqueInput)
-  state!: StateWhereUniqueInput;
+  state?: StateWhereUniqueInput;
   @ApiProperty({
     required: true,
   })

@@ -5,13 +5,13 @@ import { RegistrationWhereUniqueInput } from "../registration/RegistrationWhereU
 import { UserWhereUniqueInput } from "../user/UserWhereUniqueInput";
 
 export type Journal = {
-  account: JournalAccountWhereUniqueInput;
+  account?: JournalAccountWhereUniqueInput;
   agent?: AgentWhereUniqueInput | null;
   amount: number;
   category?: JournalCategoryWhereUniqueInput | null;
   comment: string | null;
   createdAt: Date;
-  dc: "D" | "C";
+  dc?: "D" | "C";
   description: string | null;
   id: string;
   journaltype?: "Sj" | "Ap" | null;

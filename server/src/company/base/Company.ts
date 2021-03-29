@@ -123,7 +123,7 @@ class Company {
   })
   @ValidateNested()
   @Type(() => UserWhereUniqueInput)
-  userId!: UserWhereUniqueInput;
+  userId?: UserWhereUniqueInput;
   @ApiProperty({
     required: true,
     type: String,

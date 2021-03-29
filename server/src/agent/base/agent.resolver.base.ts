@@ -216,10 +216,7 @@ export class AgentResolverBase {
       possession: "any",
       resource: "Document",
     });
-    const results = await this.service
-      .findOne({ where: { id: parent.id } })
-      // @ts-ignore
-      .document(args);
+    const results = await this.service.findDocument(parent.id, args);
     return results.map((result) => permission.filter(result));
   }
 
@@ -240,10 +237,7 @@ export class AgentResolverBase {
       possession: "any",
       resource: "Journal",
     });
-    const results = await this.service
-      .findOne({ where: { id: parent.id } })
-      // @ts-ignore
-      .journal(args);
+    const results = await this.service.findJournal(parent.id, args);
     return results.map((result) => permission.filter(result));
   }
 
@@ -263,9 +257,7 @@ export class AgentResolverBase {
       possession: "any",
       resource: "State",
     });
-    const result = await this.service
-      .findOne({ where: { id: parent.id } })
-      .state();
+    const result = await this.service.getState(parent.id);
 
     if (!result) {
       return null;
@@ -289,9 +281,7 @@ export class AgentResolverBase {
       possession: "any",
       resource: "User",
     });
-    const result = await this.service
-      .findOne({ where: { id: parent.id } })
-      .user();
+    const result = await this.service.getUser(parent.id);
 
     if (!result) {
       return null;

@@ -1,4 +1,5 @@
 import { PrismaService } from "nestjs-prisma";
+
 import {
   FindOneCompanyArgs,
   FindManyCompanyArgs,
@@ -6,25 +7,57 @@ import {
   CompanyUpdateArgs,
   CompanyDeleteArgs,
   Subset,
+  Company,
+  FindManyRegistrationArgs,
+  Registration,
+  User,
 } from "@prisma/client";
 
 export class CompanyServiceBase {
   constructor(protected readonly prisma: PrismaService) {}
-  findMany<T extends FindManyCompanyArgs>(
+
+  async findMany<T extends FindManyCompanyArgs>(
     args: Subset<T, FindManyCompanyArgs>
-  ) {
+  ): Promise<Company[]> {
     return this.prisma.company.findMany(args);
   }
-  findOne<T extends FindOneCompanyArgs>(args: Subset<T, FindOneCompanyArgs>) {
+  async findOne<T extends FindOneCompanyArgs>(
+    args: Subset<T, FindOneCompanyArgs>
+  ): Promise<Company | null> {
     return this.prisma.company.findOne(args);
   }
-  create<T extends CompanyCreateArgs>(args: Subset<T, CompanyCreateArgs>) {
+  async create<T extends CompanyCreateArgs>(
+    args: Subset<T, CompanyCreateArgs>
+  ): Promise<Company> {
     return this.prisma.company.create<T>(args);
   }
-  update<T extends CompanyUpdateArgs>(args: Subset<T, CompanyUpdateArgs>) {
+  async update<T extends CompanyUpdateArgs>(
+    args: Subset<T, CompanyUpdateArgs>
+  ): Promise<Company> {
     return this.prisma.company.update<T>(args);
   }
-  delete<T extends CompanyDeleteArgs>(args: Subset<T, CompanyDeleteArgs>) {
+  async delete<T extends CompanyDeleteArgs>(
+    args: Subset<T, CompanyDeleteArgs>
+  ): Promise<Company> {
     return this.prisma.company.delete(args);
+  }
+
+  async findRegistration(
+    parentId: string,
+    args: FindManyRegistrationArgs
+  ): Promise<Registration[]> {
+    return this.prisma.company
+      .findOne({
+        where: { id: parentId },
+      })
+      .registration(args);
+  }
+
+  async getUserId(parentId: string): Promise<User | null> {
+    return this.prisma.company
+      .findOne({
+        where: { id: parentId },
+      })
+      .userId();
   }
 }

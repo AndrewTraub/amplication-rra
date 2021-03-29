@@ -194,10 +194,7 @@ export class GeoCountryResolverBase {
       possession: "any",
       resource: "GeoCity",
     });
-    const results = await this.service
-      .findOne({ where: { id: parent.id } })
-      // @ts-ignore
-      .city(args);
+    const results = await this.service.findCity(parent.id, args);
     return results.map((result) => permission.filter(result));
   }
 
@@ -218,10 +215,7 @@ export class GeoCountryResolverBase {
       possession: "any",
       resource: "GeoState",
     });
-    const results = await this.service
-      .findOne({ where: { id: parent.id } })
-      // @ts-ignore
-      .state(args);
+    const results = await this.service.findState(parent.id, args);
     return results.map((result) => permission.filter(result));
   }
 }

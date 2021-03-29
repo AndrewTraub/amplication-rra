@@ -192,10 +192,7 @@ export class JournalAccountResolverBase {
       possession: "any",
       resource: "Journal",
     });
-    const results = await this.service
-      .findOne({ where: { id: parent.id } })
-      // @ts-ignore
-      .account(args);
+    const results = await this.service.findAccount(parent.id, args);
     return results.map((result) => permission.filter(result));
   }
 }

@@ -263,7 +263,7 @@ export class JournalCategoryControllerBase {
       possession: "any",
       resource: "Journal",
     });
-    const results = await this.service.findOne({ where: params }).journal({
+    const results = await this.service.findJournal(params.id, {
       where: query,
       select: {
         account: {

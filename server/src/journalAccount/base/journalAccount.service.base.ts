@@ -1,4 +1,5 @@
 import { PrismaService } from "nestjs-prisma";
+
 import {
   FindOneJournalAccountArgs,
   FindManyJournalAccountArgs,
@@ -6,33 +7,48 @@ import {
   JournalAccountUpdateArgs,
   JournalAccountDeleteArgs,
   Subset,
+  JournalAccount,
+  FindManyJournalArgs,
+  Journal,
 } from "@prisma/client";
 
 export class JournalAccountServiceBase {
   constructor(protected readonly prisma: PrismaService) {}
-  findMany<T extends FindManyJournalAccountArgs>(
+
+  async findMany<T extends FindManyJournalAccountArgs>(
     args: Subset<T, FindManyJournalAccountArgs>
-  ) {
+  ): Promise<JournalAccount[]> {
     return this.prisma.journalAccount.findMany(args);
   }
-  findOne<T extends FindOneJournalAccountArgs>(
+  async findOne<T extends FindOneJournalAccountArgs>(
     args: Subset<T, FindOneJournalAccountArgs>
-  ) {
+  ): Promise<JournalAccount | null> {
     return this.prisma.journalAccount.findOne(args);
   }
-  create<T extends JournalAccountCreateArgs>(
+  async create<T extends JournalAccountCreateArgs>(
     args: Subset<T, JournalAccountCreateArgs>
-  ) {
+  ): Promise<JournalAccount> {
     return this.prisma.journalAccount.create<T>(args);
   }
-  update<T extends JournalAccountUpdateArgs>(
+  async update<T extends JournalAccountUpdateArgs>(
     args: Subset<T, JournalAccountUpdateArgs>
-  ) {
+  ): Promise<JournalAccount> {
     return this.prisma.journalAccount.update<T>(args);
   }
-  delete<T extends JournalAccountDeleteArgs>(
+  async delete<T extends JournalAccountDeleteArgs>(
     args: Subset<T, JournalAccountDeleteArgs>
-  ) {
+  ): Promise<JournalAccount> {
     return this.prisma.journalAccount.delete(args);
+  }
+
+  async findAccount(
+    parentId: string,
+    args: FindManyJournalArgs
+  ): Promise<Journal[]> {
+    return this.prisma.journalAccount
+      .findOne({
+        where: { id: parentId },
+      })
+      .account(args);
   }
 }

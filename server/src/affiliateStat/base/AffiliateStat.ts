@@ -60,6 +60,6 @@ class AffiliateStat {
   })
   @ValidateNested()
   @Type(() => UserWhereUniqueInput)
-  user!: UserWhereUniqueInput;
+  user?: UserWhereUniqueInput;
 }
 export { AffiliateStat };

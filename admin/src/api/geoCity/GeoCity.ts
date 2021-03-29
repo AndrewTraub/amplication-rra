@@ -2,10 +2,10 @@ import { GeoCountryWhereUniqueInput } from "../geoCountry/GeoCountryWhereUniqueI
 import { GeoStateWhereUniqueInput } from "../geoState/GeoStateWhereUniqueInput";
 
 export type GeoCity = {
-  country: GeoCountryWhereUniqueInput;
+  country?: GeoCountryWhereUniqueInput;
   id: string;
   latitude: number;
   longitude: number;
   name: string;
-  state: GeoStateWhereUniqueInput;
+  state?: GeoStateWhereUniqueInput;
 };

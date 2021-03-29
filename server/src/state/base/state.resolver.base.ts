@@ -196,10 +196,7 @@ export class StateResolverBase {
       possession: "any",
       resource: "Agent",
     });
-    const results = await this.service
-      .findOne({ where: { id: parent.id } })
-      // @ts-ignore
-      .agent(args);
+    const results = await this.service.findAgent(parent.id, args);
     return results.map((result) => permission.filter(result));
   }
 
@@ -220,10 +217,7 @@ export class StateResolverBase {
       possession: "any",
       resource: "PdfForm",
     });
-    const results = await this.service
-      .findOne({ where: { id: parent.id } })
-      // @ts-ignore
-      .form(args);
+    const results = await this.service.findForm(parent.id, args);
     return results.map((result) => permission.filter(result));
   }
 
@@ -244,10 +238,7 @@ export class StateResolverBase {
       possession: "any",
       resource: "Reminder",
     });
-    const results = await this.service
-      .findOne({ where: { id: parent.id } })
-      // @ts-ignore
-      .reminder(args);
+    const results = await this.service.findReminder(parent.id, args);
     return results.map((result) => permission.filter(result));
   }
 }

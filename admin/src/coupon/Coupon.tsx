@@ -13,6 +13,7 @@ import {
   Snackbar,
   EnumButtonStyle,
   TextField,
+  SelectField,
 } from "@amplication/design-system";
 
 import { api } from "../api";
@@ -71,7 +72,7 @@ export const Coupon = (): React.ReactElement => {
     updateError?.response?.data?.message || error?.response?.data?.message;
 
   const initialValues = React.useMemo(
-    () => pick(data, ["amount", "coupon", "validFrom", "validTo"]),
+    () => pick(data, ["amount", "coupon", "minTerm", "validFrom", "validTo"]),
     [data]
   );
 
@@ -111,6 +112,16 @@ export const Coupon = (): React.ReactElement => {
             </div>
             <div>
               <TextField label="Coupon" name="coupon" />
+            </div>
+            <div>
+              <SelectField
+                label="MinTerm"
+                name="minTerm"
+                options={[
+                  { label: "Month", value: "Month" },
+                  { label: "Year", value: "Year" },
+                ]}
+              />
             </div>
             <div>
               <TextField type="date" label="Valid From" name="validFrom" />

@@ -1,4 +1,5 @@
 import { PrismaService } from "nestjs-prisma";
+
 import {
   FindOneEmailListArgs,
   FindManyEmailListArgs,
@@ -6,27 +7,48 @@ import {
   EmailListUpdateArgs,
   EmailListDeleteArgs,
   Subset,
+  EmailList,
+  FindManyEmailTemplateArgs,
+  EmailTemplate,
 } from "@prisma/client";
 
 export class EmailListServiceBase {
   constructor(protected readonly prisma: PrismaService) {}
-  findMany<T extends FindManyEmailListArgs>(
+
+  async findMany<T extends FindManyEmailListArgs>(
     args: Subset<T, FindManyEmailListArgs>
-  ) {
+  ): Promise<EmailList[]> {
     return this.prisma.emailList.findMany(args);
   }
-  findOne<T extends FindOneEmailListArgs>(
+  async findOne<T extends FindOneEmailListArgs>(
     args: Subset<T, FindOneEmailListArgs>
-  ) {
+  ): Promise<EmailList | null> {
     return this.prisma.emailList.findOne(args);
   }
-  create<T extends EmailListCreateArgs>(args: Subset<T, EmailListCreateArgs>) {
+  async create<T extends EmailListCreateArgs>(
+    args: Subset<T, EmailListCreateArgs>
+  ): Promise<EmailList> {
     return this.prisma.emailList.create<T>(args);
   }
-  update<T extends EmailListUpdateArgs>(args: Subset<T, EmailListUpdateArgs>) {
+  async update<T extends EmailListUpdateArgs>(
+    args: Subset<T, EmailListUpdateArgs>
+  ): Promise<EmailList> {
     return this.prisma.emailList.update<T>(args);
   }
-  delete<T extends EmailListDeleteArgs>(args: Subset<T, EmailListDeleteArgs>) {
+  async delete<T extends EmailListDeleteArgs>(
+    args: Subset<T, EmailListDeleteArgs>
+  ): Promise<EmailList> {
     return this.prisma.emailList.delete(args);
+  }
+
+  async findTemplate(
+    parentId: string,
+    args: FindManyEmailTemplateArgs
+  ): Promise<EmailTemplate[]> {
+    return this.prisma.emailList
+      .findOne({
+        where: { id: parentId },
+      })
+      .template(args);
   }
 }

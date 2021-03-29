@@ -1,4 +1,5 @@
 import { PrismaService } from "nestjs-prisma";
+
 import {
   FindOneEmailQueueArgs,
   FindManyEmailQueueArgs,
@@ -6,33 +7,44 @@ import {
   EmailQueueUpdateArgs,
   EmailQueueDeleteArgs,
   Subset,
+  EmailQueue,
+  User,
 } from "@prisma/client";
 
 export class EmailQueueServiceBase {
   constructor(protected readonly prisma: PrismaService) {}
-  findMany<T extends FindManyEmailQueueArgs>(
+
+  async findMany<T extends FindManyEmailQueueArgs>(
     args: Subset<T, FindManyEmailQueueArgs>
-  ) {
+  ): Promise<EmailQueue[]> {
     return this.prisma.emailQueue.findMany(args);
   }
-  findOne<T extends FindOneEmailQueueArgs>(
+  async findOne<T extends FindOneEmailQueueArgs>(
     args: Subset<T, FindOneEmailQueueArgs>
-  ) {
+  ): Promise<EmailQueue | null> {
     return this.prisma.emailQueue.findOne(args);
   }
-  create<T extends EmailQueueCreateArgs>(
+  async create<T extends EmailQueueCreateArgs>(
     args: Subset<T, EmailQueueCreateArgs>
-  ) {
+  ): Promise<EmailQueue> {
     return this.prisma.emailQueue.create<T>(args);
   }
-  update<T extends EmailQueueUpdateArgs>(
+  async update<T extends EmailQueueUpdateArgs>(
     args: Subset<T, EmailQueueUpdateArgs>
-  ) {
+  ): Promise<EmailQueue> {
     return this.prisma.emailQueue.update<T>(args);
   }
-  delete<T extends EmailQueueDeleteArgs>(
+  async delete<T extends EmailQueueDeleteArgs>(
     args: Subset<T, EmailQueueDeleteArgs>
-  ) {
+  ): Promise<EmailQueue> {
     return this.prisma.emailQueue.delete(args);
+  }
+
+  async getUser(parentId: string): Promise<User | null> {
+    return this.prisma.emailQueue
+      .findOne({
+        where: { id: parentId },
+      })
+      .user();
   }
 }

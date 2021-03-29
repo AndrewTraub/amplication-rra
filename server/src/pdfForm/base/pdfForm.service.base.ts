@@ -1,4 +1,5 @@
 import { PrismaService } from "nestjs-prisma";
+
 import {
   FindOnePdfFormArgs,
   FindManyPdfFormArgs,
@@ -6,25 +7,44 @@ import {
   PdfFormUpdateArgs,
   PdfFormDeleteArgs,
   Subset,
+  PdfForm,
+  State,
 } from "@prisma/client";
 
 export class PdfFormServiceBase {
   constructor(protected readonly prisma: PrismaService) {}
-  findMany<T extends FindManyPdfFormArgs>(
+
+  async findMany<T extends FindManyPdfFormArgs>(
     args: Subset<T, FindManyPdfFormArgs>
-  ) {
+  ): Promise<PdfForm[]> {
     return this.prisma.pdfForm.findMany(args);
   }
-  findOne<T extends FindOnePdfFormArgs>(args: Subset<T, FindOnePdfFormArgs>) {
+  async findOne<T extends FindOnePdfFormArgs>(
+    args: Subset<T, FindOnePdfFormArgs>
+  ): Promise<PdfForm | null> {
     return this.prisma.pdfForm.findOne(args);
   }
-  create<T extends PdfFormCreateArgs>(args: Subset<T, PdfFormCreateArgs>) {
+  async create<T extends PdfFormCreateArgs>(
+    args: Subset<T, PdfFormCreateArgs>
+  ): Promise<PdfForm> {
     return this.prisma.pdfForm.create<T>(args);
   }
-  update<T extends PdfFormUpdateArgs>(args: Subset<T, PdfFormUpdateArgs>) {
+  async update<T extends PdfFormUpdateArgs>(
+    args: Subset<T, PdfFormUpdateArgs>
+  ): Promise<PdfForm> {
     return this.prisma.pdfForm.update<T>(args);
   }
-  delete<T extends PdfFormDeleteArgs>(args: Subset<T, PdfFormDeleteArgs>) {
+  async delete<T extends PdfFormDeleteArgs>(
+    args: Subset<T, PdfFormDeleteArgs>
+  ): Promise<PdfForm> {
     return this.prisma.pdfForm.delete(args);
+  }
+
+  async getState(parentId: string): Promise<State | null> {
+    return this.prisma.pdfForm
+      .findOne({
+        where: { id: parentId },
+      })
+      .state();
   }
 }

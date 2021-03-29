@@ -41,7 +41,7 @@ class Registration {
   })
   @ValidateNested()
   @Type(() => CompanyWhereUniqueInput)
-  companyId!: CompanyWhereUniqueInput;
+  companyId?: CompanyWhereUniqueInput;
   @ApiProperty({
     required: true,
   })
@@ -149,7 +149,7 @@ class Registration {
   })
   @IsEnum(EnumRegistrationStatus)
   @Field(() => EnumRegistrationStatus)
-  status!: "Unregistered" | "Registered" | "Overdue" | "Cancelled";
+  status?: "Unregistered" | "Registered" | "Overdue" | "Cancelled";
   @ApiProperty({
     required: false,
     type: String,

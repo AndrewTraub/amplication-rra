@@ -1,4 +1,5 @@
 import { PrismaService } from "nestjs-prisma";
+
 import {
   FindOneGeoCityArgs,
   FindManyGeoCityArgs,
@@ -6,25 +7,53 @@ import {
   GeoCityUpdateArgs,
   GeoCityDeleteArgs,
   Subset,
+  GeoCity,
+  GeoCountry,
+  GeoState,
 } from "@prisma/client";
 
 export class GeoCityServiceBase {
   constructor(protected readonly prisma: PrismaService) {}
-  findMany<T extends FindManyGeoCityArgs>(
+
+  async findMany<T extends FindManyGeoCityArgs>(
     args: Subset<T, FindManyGeoCityArgs>
-  ) {
+  ): Promise<GeoCity[]> {
     return this.prisma.geoCity.findMany(args);
   }
-  findOne<T extends FindOneGeoCityArgs>(args: Subset<T, FindOneGeoCityArgs>) {
+  async findOne<T extends FindOneGeoCityArgs>(
+    args: Subset<T, FindOneGeoCityArgs>
+  ): Promise<GeoCity | null> {
     return this.prisma.geoCity.findOne(args);
   }
-  create<T extends GeoCityCreateArgs>(args: Subset<T, GeoCityCreateArgs>) {
+  async create<T extends GeoCityCreateArgs>(
+    args: Subset<T, GeoCityCreateArgs>
+  ): Promise<GeoCity> {
     return this.prisma.geoCity.create<T>(args);
   }
-  update<T extends GeoCityUpdateArgs>(args: Subset<T, GeoCityUpdateArgs>) {
+  async update<T extends GeoCityUpdateArgs>(
+    args: Subset<T, GeoCityUpdateArgs>
+  ): Promise<GeoCity> {
     return this.prisma.geoCity.update<T>(args);
   }
-  delete<T extends GeoCityDeleteArgs>(args: Subset<T, GeoCityDeleteArgs>) {
+  async delete<T extends GeoCityDeleteArgs>(
+    args: Subset<T, GeoCityDeleteArgs>
+  ): Promise<GeoCity> {
     return this.prisma.geoCity.delete(args);
+  }
+
+  async getCountry(parentId: string): Promise<GeoCountry | null> {
+    return this.prisma.geoCity
+      .findOne({
+        where: { id: parentId },
+      })
+      .country();
+  }
+
+  async getState(parentId: string): Promise<GeoState | null> {
+    return this.prisma.geoCity
+      .findOne({
+        where: { id: parentId },
+      })
+      .state();
   }
 }

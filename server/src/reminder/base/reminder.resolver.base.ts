@@ -202,9 +202,7 @@ export class ReminderResolverBase {
       possession: "any",
       resource: "State",
     });
-    const result = await this.service
-      .findOne({ where: { id: parent.id } })
-      .state();
+    const result = await this.service.getState(parent.id);
 
     if (!result) {
       return null;

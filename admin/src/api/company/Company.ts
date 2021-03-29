@@ -14,6 +14,6 @@ export type Company = {
   raiUuid: string | null;
   state: string;
   updatedAt: Date;
-  userId: UserWhereUniqueInput;
+  userId?: UserWhereUniqueInput;
   zip: string;
 };

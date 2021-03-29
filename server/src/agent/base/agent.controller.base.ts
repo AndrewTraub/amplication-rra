@@ -370,7 +370,7 @@ export class AgentControllerBase {
       possession: "any",
       resource: "Document",
     });
-    const results = await this.service.findOne({ where: params }).document({
+    const results = await this.service.findDocument(params.id, {
       where: query,
       select: {
         createdAt: true,
@@ -549,7 +549,7 @@ export class AgentControllerBase {
       possession: "any",
       resource: "Journal",
     });
-    const results = await this.service.findOne({ where: params }).journal({
+    const results = await this.service.findJournal(params.id, {
       where: query,
       select: {
         account: {

@@ -205,10 +205,7 @@ export class CompanyResolverBase {
       possession: "any",
       resource: "Registration",
     });
-    const results = await this.service
-      .findOne({ where: { id: parent.id } })
-      // @ts-ignore
-      .registration(args);
+    const results = await this.service.findRegistration(parent.id, args);
     return results.map((result) => permission.filter(result));
   }
 
@@ -228,9 +225,7 @@ export class CompanyResolverBase {
       possession: "any",
       resource: "User",
     });
-    const result = await this.service
-      .findOne({ where: { id: parent.id } })
-      .userId();
+    const result = await this.service.getUserId(parent.id);
 
     if (!result) {
       return null;

@@ -44,7 +44,7 @@ model Company {
   registration    Registration[]
   state           String
   updatedAt       DateTime       @updatedAt
-  userId          User           @relation(fields: [userIdId])
+  userId          User           @relation(fields: [userIdId], references: [id])
   userIdId        String
   zip             String
 }
@@ -52,7 +52,7 @@ model Company {
 model Registration {
   automaticRenewal Boolean?
   cancelledDate    DateTime?
-  companyId        Company                   @relation(fields: [companyIdId])
+  companyId        Company                   @relation(fields: [companyIdId], references: [id])
   companyIdId      String
   createdAt        DateTime                  @default(now())
   dba              String?
@@ -83,7 +83,7 @@ model Notification {
   fax              String?
   id               String        @id @default(cuid())
   phone            String
-  registrationId   Registration? @relation(fields: [registrationIdId])
+  registrationId   Registration? @relation(fields: [registrationIdId], references: [id])
   registrationIdId String?
   sendFax          Boolean?
   sendSms          Boolean?
@@ -112,13 +112,13 @@ model Document {
   fileUrl          String
   id               String        @id @default(cuid())
   notes            String?
-  registrationId   Registration? @relation(fields: [registrationIdId])
+  registrationId   Registration? @relation(fields: [registrationIdId], references: [id])
   registrationIdId String?
   title            String
   updatedAt        DateTime      @updatedAt
-  uploadedBy       Agent?        @relation(fields: [uploadedById])
+  uploadedBy       Agent?        @relation(fields: [uploadedById], references: [id])
   uploadedById     String?
-  userId           User?         @relation(fields: [userIdId])
+  userId           User?         @relation(fields: [userIdId], references: [id])
   userIdId         String?
 }
 
@@ -133,11 +133,11 @@ model Agent {
   name      String
   payTo     String?
   startDate DateTime
-  state     State      @relation(fields: [stateId])
+  state     State      @relation(fields: [stateId], references: [id])
   stateId   String
   taxId     String?
   updatedAt DateTime   @updatedAt
-  user      User       @relation(fields: [userId])
+  user      User       @relation(fields: [userId], references: [id])
   userId    String
 }
 
@@ -163,12 +163,12 @@ model JournalAccount {
 }
 
 model Journal {
-  account         JournalAccount          @relation(fields: [accountId])
+  account         JournalAccount          @relation(fields: [accountId], references: [id])
   accountId       String
-  agent           Agent?                  @relation(fields: [agentId])
+  agent           Agent?                  @relation(fields: [agentId], references: [id])
   agentId         String?
   amount          Float
-  category        JournalCategory?        @relation(fields: [categoryId])
+  category        JournalCategory?        @relation(fields: [categoryId], references: [id])
   categoryId      String?
   comment         String?
   createdAt       DateTime                @default(now())
@@ -178,13 +178,13 @@ model Journal {
   journaltype     EnumJournalJournaltype?
   postDate        DateTime?
   posted          Boolean?
-  registration    Registration?           @relation(fields: [registrationId])
+  registration    Registration?           @relation(fields: [registrationId], references: [id])
   registrationId  String?
   source          String
   transactionDate DateTime
   transactionId   String?
   updatedAt       DateTime                @updatedAt
-  user            User?                   @relation(fields: [userId])
+  user            User?                   @relation(fields: [userId], references: [id])
   userId          String?
 }
 
@@ -197,7 +197,7 @@ model PdfForm {
   public              Boolean?
   publicDescription   String?
   publicName          String
-  state               State    @relation(fields: [stateId])
+  state               State    @relation(fields: [stateId], references: [id])
   stateId             String
   updatedAt           DateTime @updatedAt
   useRegistrationDate Boolean?
@@ -219,7 +219,7 @@ model EmailTemplate {
   body           String
   createdAt      DateTime  @default(now())
   delay          Int
-  emailList      EmailList @relation(fields: [emailListId])
+  emailList      EmailList @relation(fields: [emailListId], references: [id])
   emailListId    String
   id             String    @id @default(cuid())
   sequenceNumber Int
@@ -236,7 +236,7 @@ model EmailQueue {
   timeToSend DateTime
   type       Int?
   updatedAt  DateTime @updatedAt
-  user       User?    @relation(fields: [userId])
+  user       User?    @relation(fields: [userId], references: [id])
   userId     String?
 }
 
@@ -247,7 +247,7 @@ model Log {
   id        String   @id @default(cuid())
   table     String
   updatedAt DateTime @updatedAt
-  user      User?    @relation(fields: [userId])
+  user      User?    @relation(fields: [userId], references: [id])
   userId    String?
 }
 
@@ -257,13 +257,13 @@ model LogEmail {
   emailTo        String?
   id             String        @id @default(cuid())
   messageId      String?
-  notification   Notification? @relation(fields: [notificationId])
+  notification   Notification? @relation(fields: [notificationId], references: [id])
   notificationId String?
-  registration   Registration? @relation(fields: [registrationId])
+  registration   Registration? @relation(fields: [registrationId], references: [id])
   registrationId String?
   sentOn         DateTime?
   updatedAt      DateTime      @updatedAt
-  user           User?         @relation(fields: [userId])
+  user           User?         @relation(fields: [userId], references: [id])
   userId         String?
 }
 
@@ -271,9 +271,9 @@ model LogText {
   createdAt        DateTime      @default(now())
   id               String        @id @default(cuid())
   message          String
-  notification     Notification? @relation(fields: [notificationId])
+  notification     Notification? @relation(fields: [notificationId], references: [id])
   notificationId   String?
-  registration     Registration? @relation(fields: [registrationId])
+  registration     Registration? @relation(fields: [registrationId], references: [id])
   registrationId   String?
   response         String?
   sent             DateTime
@@ -281,7 +281,7 @@ model LogText {
   sentToNumber     String
   smsTriggerReason String?
   updatedAt        DateTime      @updatedAt
-  user             User?         @relation(fields: [userId])
+  user             User?         @relation(fields: [userId], references: [id])
   userId           String?
 }
 
@@ -292,7 +292,7 @@ model Reminder {
   day       Int?
   id        String   @id @default(cuid())
   month     Int?
-  state     State    @relation(fields: [stateId])
+  state     State    @relation(fields: [stateId], references: [id])
   stateId   String
   title     String
   updatedAt DateTime @updatedAt
@@ -306,7 +306,7 @@ model AffiliateStat {
   statusDate DateTime
   type       Int
   updatedAt  DateTime @updatedAt
-  user       User     @relation(fields: [userId])
+  user       User     @relation(fields: [userId], references: [id])
   userId     String
 }
 
@@ -321,29 +321,30 @@ model GeoCountry {
 
 model GeoState {
   city      GeoCity[]
-  country   GeoCountry @relation(fields: [countryId])
+  country   GeoCountry @relation(fields: [countryId], references: [id])
   countryId String
   id        String     @id @default(cuid())
   name      String
 }
 
 model GeoCity {
-  country   GeoCountry @relation(fields: [countryId])
+  country   GeoCountry @relation(fields: [countryId], references: [id])
   countryId String
   id        String     @id @default(cuid())
   latitude  Float
   longitude Float
   name      String
-  state     GeoState   @relation(fields: [stateId])
+  state     GeoState   @relation(fields: [stateId], references: [id])
   stateId   String
 }
 
 model Coupon {
   amount    Float?
   coupon    String
-  createdAt DateTime @default(now())
-  id        String   @id @default(cuid())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime          @default(now())
+  id        String            @id @default(cuid())
+  minTerm   EnumCouponMinTerm
+  updatedAt DateTime          @updatedAt
   validFrom DateTime
   validTo   DateTime
 }
@@ -387,4 +388,9 @@ enum EnumJournalDc {
 enum EnumJournalJournaltype {
   Sj
   Ap
+}
+
+enum EnumCouponMinTerm {
+  Month
+  Year
 }

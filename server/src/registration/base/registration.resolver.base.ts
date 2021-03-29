@@ -213,10 +213,7 @@ export class RegistrationResolverBase {
       possession: "any",
       resource: "Document",
     });
-    const results = await this.service
-      .findOne({ where: { id: parent.id } })
-      // @ts-ignore
-      .document(args);
+    const results = await this.service.findDocument(parent.id, args);
     return results.map((result) => permission.filter(result));
   }
 
@@ -237,10 +234,7 @@ export class RegistrationResolverBase {
       possession: "any",
       resource: "LogEmail",
     });
-    const results = await this.service
-      .findOne({ where: { id: parent.id } })
-      // @ts-ignore
-      .emailLog(args);
+    const results = await this.service.findEmailLog(parent.id, args);
     return results.map((result) => permission.filter(result));
   }
 
@@ -261,10 +255,7 @@ export class RegistrationResolverBase {
       possession: "any",
       resource: "Journal",
     });
-    const results = await this.service
-      .findOne({ where: { id: parent.id } })
-      // @ts-ignore
-      .journal(args);
+    const results = await this.service.findJournal(parent.id, args);
     return results.map((result) => permission.filter(result));
   }
 
@@ -285,10 +276,7 @@ export class RegistrationResolverBase {
       possession: "any",
       resource: "Notification",
     });
-    const results = await this.service
-      .findOne({ where: { id: parent.id } })
-      // @ts-ignore
-      .notification(args);
+    const results = await this.service.findNotification(parent.id, args);
     return results.map((result) => permission.filter(result));
   }
 
@@ -309,10 +297,7 @@ export class RegistrationResolverBase {
       possession: "any",
       resource: "LogText",
     });
-    const results = await this.service
-      .findOne({ where: { id: parent.id } })
-      // @ts-ignore
-      .smsLog(args);
+    const results = await this.service.findSmsLog(parent.id, args);
     return results.map((result) => permission.filter(result));
   }
 
@@ -332,9 +317,7 @@ export class RegistrationResolverBase {
       possession: "any",
       resource: "Company",
     });
-    const result = await this.service
-      .findOne({ where: { id: parent.id } })
-      .companyId();
+    const result = await this.service.getCompanyId(parent.id);
 
     if (!result) {
       return null;
